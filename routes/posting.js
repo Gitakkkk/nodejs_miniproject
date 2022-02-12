@@ -10,7 +10,7 @@ router.use(bodyParser.json());
 
 // 게시글 작성 //
 
-router.post('/items', authmiddlewares, async (req, res) => {
+router.post('/items', async (req, res) => {
   const { item_url, title, price, description, date } = req.body;
   await posting.create({
     item_url,
