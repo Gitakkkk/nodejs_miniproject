@@ -18,5 +18,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.1",
     "prettier": "^2.5.1"
+  },
+  "devDependencies": {
+    "supertest": "^6.2.2"
   }
 }

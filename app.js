@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors')
 const connect = require('./schemas');
 const app = express();
 const port = 3000;
@@ -14,6 +15,7 @@ const requestMiddleware = (req, res, next) => {
   next();
 };
 
+app.use(cors());
 app.use(express.static('static'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
