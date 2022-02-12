@@ -66,3 +66,5 @@ router.post('/items/:itemid/modify', async (req, res) => {
     .exec();
   res.json({ message: '수정이 완료됐습니다.' });
 });
+
+module.exports = router;

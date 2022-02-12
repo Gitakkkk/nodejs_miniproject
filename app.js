@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require('cors')
+const cors = require('cors');
 const connect = require('./schemas');
 const app = express();
 const port = 3000;
@@ -8,7 +8,7 @@ connect();
 
 const articleRouter = require('./routes/posting');
 const userRouter = require('./routes/users');
-const commentRouter = require('./routes/comments');
+// const commentRouter = require('./routes/comments');
 
 const requestMiddleware = (req, res, next) => {
   console.log('Request URL:', req.originalUrl, '-', new Date());
@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(requestMiddleware);
 
-app.use('/api/', [articleRouter, userRouter, commentRouter]);
+app.use('/api', [articleRouter, userRouter]);
 
 app.get('/', (req, res) => {
   res.send('Hello World');
