@@ -11,12 +11,13 @@ router.use(bodyParser.json());
 // 게시글 작성 //
 
 router.post('/items', authmiddlewares, async (req, res) => {
-  const { item_url, title, price, description } = req.body;
+  const { item_url, title, price, description, date } = req.body;
   await posting.create({
     item_url,
     title,
     price,
     description,
+    date,
   });
   res.send({});
 });
@@ -53,7 +54,7 @@ router.post('/items/:itemid/delete', async (req, res) => {
 // 수정 페이지 접속 후 수정
 
 router.post('/items/:itemid/modify', async (req, res) => {
-  const { item_url, title, price, description } = req.body;
+  const { item_url, title, price, description, date } = req.body;
   await posting
     .findByIdAndUpdate(req.params.itemid, {
       $set: {
@@ -61,6 +62,7 @@ router.post('/items/:itemid/modify', async (req, res) => {
         title: title,
         price: price,
         description: description,
+        date: date,
       },
     })
     .exec();
