@@ -10,7 +10,7 @@ router.use(bodyParser.json());
 
 // 게시글 작성 //
 
-router.post('/items', async (req, res) => {
+router.post('/items', authmiddlewares, async (req, res) => {
   const { item_url, title, price, description, date } = req.body;
   await posting.create({
     item_url,
@@ -19,7 +19,7 @@ router.post('/items', async (req, res) => {
     description,
     date,
   });
-  res.send({});
+  res.json({});
 });
 
 // 전체 게시글 조회 //
@@ -39,21 +39,21 @@ router.get('/detail/:itemid', async (req, res) => {
 
 // 수정 페이지 접속
 
-router.get('/items/:itemid', async (req, res) => {
+router.get('/items/:itemid', authmiddlewares, async (req, res) => {
   const postings = await posting.findById(req.params.itemid);
   res.json({ list: postings });
 });
 
 // 수정 페이지 접속 후 삭제
 
-router.post('/items/:itemid/delete', async (req, res) => {
+router.post('/items/:itemid/delete', authmiddlewares, async (req, res) => {
   await posting.deleteOne({ _id: req.params.itemid });
   res.json({ message: '삭제가 완료됐습니다.' });
 });
 
 // 수정 페이지 접속 후 수정
 
-router.post('/items/:itemid/modify', async (req, res) => {
+router.post('/items/:itemid/modify', authmiddlewares, async (req, res) => {
   const { item_url, title, price, description, date } = req.body;
   await posting
     .findByIdAndUpdate(req.params.itemid, {
