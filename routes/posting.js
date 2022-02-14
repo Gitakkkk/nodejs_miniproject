@@ -22,41 +22,19 @@ router.post('/items', authmiddlewares, async (req, res) => {
   res.json({});
 });
 
-// 전체 게시글 조회 //
+// 게시글 삭제
 
-router.get('/items', async (req, res) => {
-  const postings = await posting.find();
-  res.json({ list: postings });
-});
-
-// detail 화면에 보일 게시글 조회
-
-router.get('/detail/:itemid', async (req, res) => {
-  const postings = await posting.findById(req.params.itemid);
-
-  res.json({ list: postings, comments });
-});
-
-// 수정 페이지 접속
-
-router.get('/items/:itemid', authmiddlewares, async (req, res) => {
-  const postings = await posting.findById(req.params.itemid);
-  res.json({ list: postings });
-});
-
-// 수정 페이지 접속 후 삭제
-
-router.post('/items/:itemid/delete', authmiddlewares, async (req, res) => {
-  await posting.deleteOne({ _id: req.params.itemid });
+router.delete('/items/delete/:itemId', authmiddlewares, async (req, res) => {
+  await posting.deleteOne({ _id: req.params.itemId });
   res.json({ message: '삭제가 완료됐습니다.' });
 });
 
-// 수정 페이지 접속 후 수정
+// 게시글 수정
 
-router.post('/items/:itemid/modify', authmiddlewares, async (req, res) => {
+router.put('/items/modify/:itemId', authmiddlewares, async (req, res) => {
   const { item_url, title, price, description, date } = req.body;
   await posting
-    .findByIdAndUpdate(req.params.itemid, {
+    .findByIdAndUpdate(req.params.itemId, {
       $set: {
         item_url: item_url,
         title: title,
@@ -67,6 +45,30 @@ router.post('/items/:itemid/modify', authmiddlewares, async (req, res) => {
     })
     .exec();
   res.json({ message: '수정이 완료됐습니다.' });
+});
+
+// 전체 게시글 조회 //
+
+router.get('/items', async (req, res) => {
+  const postings = await posting.find();
+  res.json({ list: postings });
+});
+
+// detail 화면에 보일 게시글 조회
+
+router.get('/detail/:itemId', async (req, res) => {
+  const itemId = req.params;
+  const postings = await posting.findById(itemId);
+  const comment = await comments.find({ itemId });
+
+  res.json({ list: postings, comment });
+});
+
+// 수정 페이지 접속
+
+router.get('/items/:itemId', authmiddlewares, async (req, res) => {
+  const postings = await posting.findById(req.params.itemId);
+  res.json({ list: postings });
 });
 
 module.exports = router;
