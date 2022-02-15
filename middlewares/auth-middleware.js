@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../schemas/user');
+require('dotenv').config();
 
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
@@ -7,15 +8,14 @@ module.exports = (req, res, next) => {
 
   if (tokenTpye !== 'Bearer') {
     res.status(401).send({
-      errorMessage: '1',
+      errorMessage: '로그인 후 사용하세요.',
     });
     return;
   }
 
   try {
-    const { nickname } = jwt.verify(tokenValue, `${process.env.SECRET_KEY}`);
-
-    const user = User.find({ nickname })
+    const { nickname } = jwt.verify(tokenValue, process.env.SECRET_KEY);
+    User.find({ nickname })
       .exec()
       .then((user) => {
         res.locals.user = user;
@@ -23,7 +23,7 @@ module.exports = (req, res, next) => {
       });
   } catch (error) {
     res.status(401).send({
-      errorMessage: '2',
+      errorMessage: '로그인 후 사용하세요.',
     });
     return;
   }

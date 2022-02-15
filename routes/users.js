@@ -53,7 +53,7 @@ const postAuthSchemas = Joi.object({
   nickname: Joi.string()
     .required()
     .pattern(new RegExp('^[a-zA-Z0-9가-힣]{3,30}$')),
-  password: Joi.string().required().pattern(new RegExp('^{4,30}$')),
+  password: Joi.string().min(4).max(30),
 });
 
 // 로그인 구현

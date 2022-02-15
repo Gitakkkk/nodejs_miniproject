@@ -31,7 +31,6 @@ router.post('/items', authmiddlewares, async (req, res) => {
   let minutes = today.getMinutes();
   let seconds = today.getSeconds();
 
-  // 시간수정
   month = month < 10 ? '0' + month : month;
   day = day < 10 ? '0' + day : day;
   hour = hour < 10 ? '0' + hour : hour;
@@ -41,13 +40,15 @@ router.post('/items', authmiddlewares, async (req, res) => {
   const date =
     year + '-' + month + '-' + day + ' ' + hour + ':' + minutes + ':' + seconds;
 
+  // const date = new Date().toLocaleString();
+
   const { item_url, title, price, description } = req.body;
   await posting.create({
-    item_url,
-    title,
-    price,
-    description,
-    date,
+    item_url: item_url,
+    title: title,
+    price: price,
+    description: description,
+    date: date,
   });
   res.json({});
 });
