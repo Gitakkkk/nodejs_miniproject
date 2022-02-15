@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
     }
 
     try {
-        const { nickname } = jwt.verify(tokenValue, "veiw-scret-key");
+        const { nickname } = jwt.verify(tokenValue, `${process.env.SECRET_KEY}`);
 
         const user = User.find({ nickname }).exec().then((user) => {
             res.locals.user = user;
