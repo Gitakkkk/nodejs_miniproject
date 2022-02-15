@@ -4,7 +4,6 @@ const CommentSchema = new mongoose.Schema({
   comment: String, 
   itemId: String, 
   nickname: String,
-  time: String,
   
   
   

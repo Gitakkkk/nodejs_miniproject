@@ -6,10 +6,10 @@ const Comments = require('../schemas/comments');
 
 // 댓글 작성하기
 router.post('/comments', authmiddlewares, async (req, res) => {
-  const { comment, itemId, time } = req.body;
+  const { comment, itemId } = req.body;
   const nickname = res.locals.user['nickname'];
 
-  const comment1 = new Comments({ comment, itemId, nickname, time });
+  const comment1 = new Comments({ comment, itemId, nickname });
   await comment1.save();
 
   const result = await comment1.save();
@@ -41,13 +41,13 @@ router.post(
 
 //댓글 수정하기
 router.put('/comments/modify/:commentid', authmiddlewares, async (req, res) => {
-  const { comment, time } = req.body;
+  const { comment } = req.body;
   const nickname = res.locals.user['nickname'];
   const { commentid } = req.params;
 
   await Comments.updateOne(
     { _id: commentid, nickname },
-    { comment: comment, time: time }
+    { comment: comment }
   );
 
   res.json({ result: 'success' });
