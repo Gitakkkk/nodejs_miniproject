@@ -11,7 +11,24 @@ router.use(bodyParser.json());
 // 게시글 작성 //
 
 router.post('/items', authmiddlewares, async (req, res) => {
-  const { item_url, title, price, description, date } = req.body;
+  const today = new Date();
+  const year = today.getFullYear();
+  let month = today.getMonth()+1;
+  let day = today.getDate();
+  let hour = today.getHours();
+  let minutes = today.getMinutes();
+  let seconds = today.getSeconds();
+
+  month = month<10 ? "0"+month : month;
+  day = day<10 ? "0"+day : day;
+  hour = hour<10 ? "0"+hour : hour;
+  seconds = seconds<10 ? "0"+seconds : seconds;
+  minutes = minutes<10 ? "0"+minutes : minutes;
+
+
+  const date = year + '-' + month + '-' + day +" "+ hour + ':' + minutes + ':' + seconds;
+
+  const { item_url, title, price, description } = req.body;
   await posting.create({
     item_url,
     title,
@@ -32,7 +49,24 @@ router.delete('/items/delete/:itemId', authmiddlewares, async (req, res) => {
 // 게시글 수정
 
 router.put('/items/modify/:itemId', authmiddlewares, async (req, res) => {
-  const { item_url, title, price, description, date } = req.body;
+  const today = new Date();
+  const year = today.getFullYear();
+  let month = today.getMonth()+1;
+  let day = today.getDate();
+  let hour = today.getHours();
+  let minutes = today.getMinutes();
+  let seconds = today.getSeconds();
+
+  month = month<10 ? "0"+month : month;
+  day = day<10 ? "0"+day : day;
+  hour = hour<10 ? "0"+hour : hour;
+  seconds = seconds<10 ? "0"+seconds : seconds;
+  minutes = minutes<10 ? "0"+minutes : minutes;
+
+
+  const date = year + '-' + month + '-' + day +" "+ hour + ':' + minutes + ':' + seconds;
+
+  const { item_url, title, price, description } = req.body;
   await posting
     .findByIdAndUpdate(req.params.itemId, {
       $set: {
