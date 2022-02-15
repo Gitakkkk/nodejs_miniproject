@@ -11,28 +11,35 @@ router.use(bodyParser.json());
 
 // 이미지 파일 AWS S3 저장
 
-router.post('/imgs', upload.single('image'), UserController.uploadImage);
+router.post(
+  '/imgs',
+  upload.single('image'),
+  UserController.uploadImage,
+  (req, res) => {
+    res.send({});
+  }
+);
 
 // 게시글 작성 //
 
 router.post('/items', authmiddlewares, async (req, res) => {
   const today = new Date();
   const year = today.getFullYear();
-  let month = today.getMonth()+1;
+  let month = today.getMonth() + 1;
   let day = today.getDate();
   let hour = today.getHours();
   let minutes = today.getMinutes();
   let seconds = today.getSeconds();
-  
+
   // 시간수정
-  month = month<10 ? "0"+month : month;
-  day = day<10 ? "0"+day : day;
-  hour = hour<10 ? "0"+hour : hour;
-  seconds = seconds<10 ? "0"+seconds : seconds;
-  minutes = minutes<10 ? "0"+minutes : minutes;
+  month = month < 10 ? '0' + month : month;
+  day = day < 10 ? '0' + day : day;
+  hour = hour < 10 ? '0' + hour : hour;
+  seconds = seconds < 10 ? '0' + seconds : seconds;
+  minutes = minutes < 10 ? '0' + minutes : minutes;
 
-
-  const date = year + '-' + month + '-' + day +" "+ hour + ':' + minutes + ':' + seconds;
+  const date =
+    year + '-' + month + '-' + day + ' ' + hour + ':' + minutes + ':' + seconds;
 
   const { item_url, title, price, description } = req.body;
   await posting.create({
@@ -57,20 +64,20 @@ router.delete('/items/delete/:itemId', authmiddlewares, async (req, res) => {
 router.put('/items/modify/:itemId', authmiddlewares, async (req, res) => {
   const today = new Date();
   const year = today.getFullYear();
-  let month = today.getMonth()+1;
+  let month = today.getMonth() + 1;
   let day = today.getDate();
   let hour = today.getHours();
   let minutes = today.getMinutes();
   let seconds = today.getSeconds();
 
-  month = month<10 ? "0"+month : month;
-  day = day<10 ? "0"+day : day;
-  hour = hour<10 ? "0"+hour : hour;
-  seconds = seconds<10 ? "0"+seconds : seconds;
-  minutes = minutes<10 ? "0"+minutes : minutes;
+  month = month < 10 ? '0' + month : month;
+  day = day < 10 ? '0' + day : day;
+  hour = hour < 10 ? '0' + hour : hour;
+  seconds = seconds < 10 ? '0' + seconds : seconds;
+  minutes = minutes < 10 ? '0' + minutes : minutes;
 
-
-  const date = year + '-' + month + '-' + day +" "+ hour + ':' + minutes + ':' + seconds;
+  const date =
+    year + '-' + month + '-' + day + ' ' + hour + ':' + minutes + ':' + seconds;
 
   const { item_url, title, price, description } = req.body;
   await posting

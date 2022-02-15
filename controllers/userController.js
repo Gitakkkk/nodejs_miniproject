@@ -19,7 +19,6 @@ const util = {
 const user = {
   uploadImage: async (req, res) => {
     const image = req.file.location;
-    console.log(req.file);
     if (image === undefined) {
       return res
         .status(400)
