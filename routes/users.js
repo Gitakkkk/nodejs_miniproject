@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const router = express.Router();
 const authMiddlleware = require('../middlewares/auth-middleware');
 
+
 const postUsersSchemas = Joi.object({
   nickname: Joi.string()
     .required()
@@ -87,7 +88,7 @@ router.post('/login', async (req, res) => {
       return;
     }
 
-    const token = jwt.sign({ nickname: user.nickname }, 'veiw-scret-key');
+    const token = jwt.sign({ nickname: user.nickname }, `${process.env.SECRET_KEY}`);
     res.send({
       token,
     });
