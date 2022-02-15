@@ -23,7 +23,8 @@ router.post('/items', authmiddlewares, async (req, res) => {
   let hour = today.getHours();
   let minutes = today.getMinutes();
   let seconds = today.getSeconds();
-
+  
+  // 시간수정
   month = month<10 ? "0"+month : month;
   day = day<10 ? "0"+day : day;
   hour = hour<10 ? "0"+hour : hour;
