@@ -2,7 +2,6 @@ const express = require('express');
 const User = require('../schemas/user');
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
-// const brycpt = require('bcrypt');
 const router = express.Router();
 const authMiddlleware = require('../middlewares/auth-middleware');
 
@@ -64,7 +63,7 @@ router.post('/login', async (req, res) => {
       req.body
     );
 
-    const user = await User.findOne({ nickname, password }).exec();
+    const user = await User.findOne({ nickname }).exec();
 
     if (!user) {
       res.status(400).send({
@@ -72,6 +71,15 @@ router.post('/login', async (req, res) => {
       });
       return;
     }
+
+    user.comparePassword(req.body.password, (err, isMatch) => {
+      if (!isMatch) {
+        return res.status(400).send({
+          errorMessage: '닉네임 또는 패스워드가 잘못됐습니다.',
+        });
+      }
+    });
+
     if (nickname === password) {
       res.status(400).send({
         errorMessage: '닉네임과 비밀번호가 같습니다.',
@@ -79,18 +87,10 @@ router.post('/login', async (req, res) => {
       return;
     }
 
-    // user.comparePassword(req.body.password, (err, isMatch) => {
-    //   if (!isMatch) {
-    //     return res.json;
-    //   }
-    // });
-
     const token = jwt.sign({ nickname: user.nickname }, 'veiw-scret-key');
     res.send({
       token,
     });
-    // auth 생성
-    console.log(token);
   } catch (error) {
     res.status(400).send({
       errorMessage: '요청한 형식이 올바르지 않습니다.',
