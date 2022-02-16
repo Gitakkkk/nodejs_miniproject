@@ -100,21 +100,12 @@ router.get('/items', async (req, res) => {
   res.json({ list: postings });
 });
 
-// detail 화면에 보일 게시글 조회
+// 상세 페이지 접속
 
-router.get('/detail/:itemId', async (req, res) => {
-  const itemId = req.params;
-  const postings = await posting.findById(itemId);
-  const comment = await comments.find({ itemId });
-
-  res.json({ list: postings, comment });
-});
-
-// 수정 페이지 접속
-
-router.get('/items/:itemId', authmiddlewares, async (req, res) => {
+router.get('/items/:itemId', async (req, res) => {
   const postings = await posting.findById(req.params.itemId);
-  res.json({ list: postings });
+  // const comment = await comments.find({ itemId });
+  res.json({ list: postings /*, comment*/ });
 });
 
 module.exports = router;
