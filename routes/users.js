@@ -4,6 +4,7 @@ const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const authMiddlleware = require('../middlewares/auth-middleware');
+require('dotenv').config();
 
 const postUsersSchemas = Joi.object({
   nickname: Joi.string()
@@ -89,7 +90,7 @@ router.post('/login', async (req, res) => {
 
     const token = jwt.sign(
       { nickname: user.nickname },
-      `${process.env.SECRET_KEY}`
+      process.env.SECRET_KEY
     );
     res.send({
       token,
