@@ -40,8 +40,6 @@ router.post('/items', authmiddlewares, async (req, res) => {
   const date =
     year + '-' + month + '-' + day + ' ' + hour + ':' + minutes + ':' + seconds;
 
-  // const date = new Date().toLocaleString();
-
   const { item_url, title, price, description } = req.body;
   await posting.create({
     item_url: item_url,
